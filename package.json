@@ -4,11 +4,12 @@
 	"description": "auto commit your code",
 	"author":"emjio",
 	"publisher": "emjio",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"repository": "https://github.com/emjio/git-auto-commit.git",
 	"engines": {
 		"vscode": "^1.59.0"
 	},
+	"bugs": "https://github.com/emjio/git-auto-commit/issues",
 	"categories": [
 		"Other"
 	],
@@ -20,7 +21,7 @@
 		"commands": [
 			{
 				"command": "code-auto-commit.runCommit",
-				"title": "Hello World"
+				"title": "提交"
 			}
 		],
 		"configuration": {
