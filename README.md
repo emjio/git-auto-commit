@@ -1,6 +1,6 @@
-# git-auto-commit README
+# git-auto-commit 
 
-这是一个可以自动帮你保存代码的插件。在某一次不小心把咖啡洒在了电脑上而生的
+这是一个可以自动帮你保存代码的插件。在某一次不小心把咖啡洒在了电脑上而诞生。
 
 ## Features
 
@@ -10,7 +10,7 @@
 
 ![feature](image/img1.png)
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+> Tip: 由于vscode中的限制，只能获取到工作区的地址。所以在使用本插件之前你需要点击菜单中的 ```文件->将工作区另存为``` 然后选择你的项目根目录保存工作区文件。git 提交会在工作区文件的同级目录中运行。所以请保证工作区文件和 .git文件为同一个路径。
 
 ## 插件设置 
 
@@ -20,42 +20,21 @@
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+在自动提交的时候有时候会运行两次git commit。
 
 ## Release Notes
 
 Users appreciate release notes as you update your extension.
 
-### 1.0.0
+### 0.1.0
 
-Initial release of ...
+Initial release 
 
-### 1.0.1
+### 0.1.1
 
-Fixed issue #.
+修复了一些bug。
+新增 git commit的时候会跳过检查。
+修改 由代码编辑触发更改为保存触发。
 
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
 **Enjoy!**

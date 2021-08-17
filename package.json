@@ -5,7 +5,7 @@
 	"author":"emjio",
 	"publisher": "emjio",
 	"version": "0.1.0",
-	"repository": {},
+	"repository": "https://github.com/emjio/git-auto-commit.git",
 	"engines": {
 		"vscode": "^1.59.0"
 	},
