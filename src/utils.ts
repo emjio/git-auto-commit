@@ -15,6 +15,6 @@ export function getNow() {
 	dateTime = yy + '-' + mm + '-' + dd + ' ' + hh + ':' + mf + ':' + ss
 	return dateTime
 }
-export function getConfig(key: string) {
-	return vscode.workspace.getConfiguration().get(`code-auto-commit.${key}`);
+export function getConfig<T = any>(key: string) {
+	return vscode.workspace.getConfiguration().get<T>(`code-auto-commit.${key}`);
 }

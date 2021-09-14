@@ -8,18 +8,18 @@ let instance:Scheduler
 
 export function activate(context: vscode.ExtensionContext) {
 	let config:Option = {
-		path:vscode.workspace.workspaceFile?.path,
-		commitTimeInterval:getConfig('commitTimeInterval') as number,
-		autoPush:getConfig('autoPush') as boolean,
+		commitTimeInterval:getConfig<number>('commitTimeInterval')|| 0,
+		autoPush:getConfig<boolean>('autoPush') || false,
 		context
 	}
-	vscode.window.showInformationMessage('git-auto-commit成功启用');
-	if(!vscode.workspace.workspaceFile){
-		vscode.window.showErrorMessage('当前目录下不存在工作区,无法获取执行目录。请先将本项目保存为工作区');
+	if(!vscode.workspace.workspaceFolders){
+		vscode.window.showErrorMessage('当前目录不合法');
+		return
 	}else{
-		instance = new Scheduler({...config,context});
+		config.path = vscode.workspace.workspaceFolders[0].uri.fsPath
+		instance = new Scheduler({...config,context})
+		vscode.window.showInformationMessage('git-auto-commit成功启用');
 		vscode.workspace.onDidSaveTextDocument((e)=>{instance.changeListener(e)})
-
 	}
 	let disposable = vscode.commands.registerCommand('code-auto-commit.runCommit', () => {
 		
@@ -27,8 +27,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(disposable);
 	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(() => {
-		config.commitTimeInterval = getConfig('commitTimeInterval') as number;
-		config.autoPush = getConfig('autoPush') as boolean;
+		config.commitTimeInterval = getConfig<number>('commitTimeInterval') ||0;
+		config.autoPush = getConfig<boolean>('autoPush') || false;
 		instance.changeOptions(config)
 	}));
 }

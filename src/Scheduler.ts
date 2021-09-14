@@ -12,18 +12,14 @@ export default class Scheduler {
     changeOptions(option: Option) {
         this.$option = option
     }
-    changeListener(e?: any) {
-        // if (e.contentChanges.length > 0) {
+    changeListener(e:vscode.TextDocument) {
             if (timer) {
                 clearTimeout(timer)
             }
-            
             timer = setTimeout(() => {
-
-            this.run()
-            clearTimeout(timer)
+                this.run()
+                clearTimeout(timer)
             }, this.$option.commitTimeInterval)
-        // }
     }
     private _getUnCommitChange(path: string) {
         let cmd = `cd ${path}`;
@@ -46,24 +42,18 @@ export default class Scheduler {
     }
     run() {
         if (this.$option.path) {
-            const reg = /\/.*\//
-            const res = reg.exec(this.$option.path)
-            if (res !== null) {
-                const cmd = `cd ${res[0]} && git add . && git commit -n -m "自动提交" `;
+                const cmd = `cd ${this.$option.path} && git add . && git commit -n -m "自动提交" `;
                 exec(cmd, (err, stdout) => {
                     if (err) {
                         ReminderView.show(this.$option.context,err.message)
                     } else {
-                        this._getUnCommitChange(res[0]).then(res => {
+                        this._getUnCommitChange(this.$option.path as string).then(res => {
                             ReminderView.show(this.$option.context,`${getNow()} 自动提交成功 ${stdout} ${res}`,)
                         })
                     }
                 })
             }
-        }else{
-
         }
-    }
     destroy() {
         clearTimeout(timer)
     }
