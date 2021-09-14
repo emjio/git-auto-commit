@@ -4,7 +4,7 @@
 	"description": "auto commit your code",
 	"author": "emjio",
 	"publisher": "emjio",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"repository": "https://github.com/emjio/git-auto-commit.git",
 	"engines": {
 		"vscode": "^1.59.0"
