@@ -10,14 +10,15 @@ export async function activate(context: vscode.ExtensionContext) {
 	let config:Option = {
 		commitTimeInterval:getConfig<number>('commitTimeInterval')|| 0,
 		autoPush:getConfig<boolean>('autoPush') || false,
-		context
+		context,
+		path: ''
 	}
 	let checkPathRes = await checkPathSafe(vscode.workspace.workspaceFolders)
 	if(checkPathRes){
 		vscode.window.showErrorMessage(checkPathRes);
 		return
 	}else{
-		config.path = vscode.workspace.workspaceFolders?.[0].uri.fsPath
+		config.path = vscode.workspace.workspaceFolders?.[0].uri.fsPath as string
 		instance = new Scheduler({...config,context})
 		vscode.window.showInformationMessage('git-auto-commit成功启用');
 		vscode.workspace.onDidSaveTextDocument((e)=> instance.changeListener(e))

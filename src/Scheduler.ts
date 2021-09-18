@@ -2,7 +2,7 @@ import { exec } from 'child_process';
 // your extension is activated the very first time the command is executed
 let timer: NodeJS.Timeout;
 import * as vscode from 'vscode';
-import { getNow,throwErrorType } from './utils'
+import { getNow,runCommand,throwErrorType } from './utils'
 import {ReminderView} from './TextView'
 export default class Scheduler {
     $option: Option
@@ -21,53 +21,32 @@ export default class Scheduler {
                 clearTimeout(timer)
             }, this.$option.commitTimeInterval)
     }
-    private  _getDiff(path:string){
-        let cmd = `cd ${path}`;
-        return new Promise((resolve) => {
-            cmd = cmd + ' && git diff'
-            let res = ''
-            exec(cmd, (err, stdout) => {
-                if (err) {
-                    res = err.message;
-                } else {
-                    res = stdout
-                }
-                resolve(res);
-            })
-        })
+    private  async _getDiff(path:string){
+        let cmd = `cd ${path} && git diff`;
+        return await runCommand(cmd)
     }
-    private _getUnCommitChange(path: string) {
+    private async _getUnCommitChange(path: string) {
         let cmd = `cd ${path}`;
-        return new Promise((resolve) => {
             if (this.$option.autoPush) {
                 cmd = cmd + ' && git push'
             } else {
                 cmd = cmd + ' && git status'
             }
             let res = ''
-            exec(cmd, (err, stdout) => {
-                if (err) {
-                    res = err.message;
-                } else {
-                    res = stdout
-                }
-                resolve(res);
-            })
-        })
+            return await runCommand(cmd)
     }
-    run() {
+    async run() {
         if (this.$option.path) {
                 const cmd = `cd ${this.$option.path} && git add . && git commit -n -m "auto-commit" `;
-                exec(cmd, (err, stdout) => {
-                    if (err) {
-                        const errorType = throwErrorType(err.message)
-                        ReminderView.show(this.$option.context,err.message)
-                    } else {
-                        this._getUnCommitChange(this.$option.path as string).then(res => {
-                            ReminderView.show(this.$option.context,`${getNow()} auto-commit success ${stdout} ${res}`,)
-                        })
-                    }
-                })
+                try{
+                const diff = await this._getDiff(this.$option.path)
+                const commitRes = await runCommand(cmd)
+                const UnCommitChange = await this._getUnCommitChange(this.$option.path as string)
+                ReminderView.show(this.$option.context,{diffRes:diff,commitRes,gitStatus:UnCommitChange},)
+                }catch(e:any){
+                    const errorType = throwErrorType(e)
+                    ReminderView.show(this.$option.context,e)
+                }
             }
         }
     destroy() {
