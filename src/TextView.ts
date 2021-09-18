@@ -28,6 +28,9 @@ export class ReminderView {
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <style>
+            .block{
+                
+            }
             .code{
                 margin: 0;
                 padding: 0;

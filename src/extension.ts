@@ -3,23 +3,24 @@
 import * as vscode from 'vscode';
 // this method is called when your extension is activated
 import Scheduler from './Scheduler'
-import { getConfig } from './utils'
+import { checkPathSafe, getConfig } from './utils'
 let instance:Scheduler
 
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
 	let config:Option = {
 		commitTimeInterval:getConfig<number>('commitTimeInterval')|| 0,
 		autoPush:getConfig<boolean>('autoPush') || false,
 		context
 	}
-	if(!vscode.workspace.workspaceFolders){
-		vscode.window.showErrorMessage('当前目录不合法');
+	let checkPathRes = await checkPathSafe(vscode.workspace.workspaceFolders)
+	if(checkPathRes){
+		vscode.window.showErrorMessage(checkPathRes);
 		return
 	}else{
-		config.path = vscode.workspace.workspaceFolders[0].uri.fsPath
+		config.path = vscode.workspace.workspaceFolders?.[0].uri.fsPath
 		instance = new Scheduler({...config,context})
 		vscode.window.showInformationMessage('git-auto-commit成功启用');
-		vscode.workspace.onDidSaveTextDocument((e)=>{instance.changeListener(e)})
+		vscode.workspace.onDidSaveTextDocument((e)=> instance.changeListener(e))
 	}
 	let disposable = vscode.commands.registerCommand('code-auto-commit.runCommit', () => {
 		
