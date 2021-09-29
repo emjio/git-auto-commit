@@ -13,7 +13,7 @@ jobs:
         env: 
           CI: true
       - name: publish
-        run:  yarn global && vsce  login ${{ secrets.PUBLISH_NAME }}
+        run:  yarn global add vsce && vsce  login ${{ secrets.PUBLISH_NAME }}
         env: 
           CI: true
       - name: inputpwd
