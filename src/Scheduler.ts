@@ -42,7 +42,12 @@ export default class Scheduler {
                     try{
                     const commitRes = await runCommand(cmd)
                     const UnCommitChange = await this._getUnCommitChange(this.$option.path as string)
-                    ReminderView.show(this.$option.context,{diffRes:diff,commitRes,gitStatus:UnCommitChange},)
+                    vscode.window.showInformationMessage('代码成功自动commit，是否查看日志', '是', '否').then(result => {
+                        if (result === '是') {
+                         ReminderView.show(this.$option.context,{diffRes:diff,commitRes,gitStatus:UnCommitChange},)
+                        } else if (result === '不再提示') {
+                            // 其它操作
+                        }})
                     }catch(e:any){
                         ReminderView.show(this.$option.context,e)
                     }
