@@ -1,8 +1,6 @@
-import { exec } from 'child_process';
-// your extension is activated the very first time the command is executed
 let timer: NodeJS.Timeout;
 import * as vscode from 'vscode';
-import { getNow,runCommand,throwErrorType } from './utils'
+import {runCommand,throwErrorType } from './utils'
 import {ReminderView} from './TextView'
 export default class Scheduler {
     $option: Option
