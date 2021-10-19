@@ -44,7 +44,6 @@ export default class Scheduler {
                     const UnCommitChange = await this._getUnCommitChange(this.$option.path as string)
                     ReminderView.show(this.$option.context,{diffRes:diff,commitRes,gitStatus:UnCommitChange},)
                     }catch(e:any){
-                        const errorType = throwErrorType(e)
                         ReminderView.show(this.$option.context,e)
                     }
                 }
