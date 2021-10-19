@@ -37,16 +37,20 @@ export default class Scheduler {
     }
     async run() {
         if (this.$option.path) {
-                const cmd = `cd ${this.$option.path} && git add . && git commit -n -m "auto-commit" `;
-                try{
+                // 执行之前先验证是否有差异
                 const diff = await this._getDiff(this.$option.path)
-                const commitRes = await runCommand(cmd)
-                const UnCommitChange = await this._getUnCommitChange(this.$option.path as string)
-                ReminderView.show(this.$option.context,{diffRes:diff,commitRes,gitStatus:UnCommitChange},)
-                }catch(e:any){
-                    const errorType = throwErrorType(e)
-                    ReminderView.show(this.$option.context,e)
+                if(diff!==''){
+                    const cmd = `cd ${this.$option.path} && git add . && git commit -n -m "auto-commit" `;
+                    try{
+                    const commitRes = await runCommand(cmd)
+                    const UnCommitChange = await this._getUnCommitChange(this.$option.path as string)
+                    ReminderView.show(this.$option.context,{diffRes:diff,commitRes,gitStatus:UnCommitChange},)
+                    }catch(e:any){
+                        const errorType = throwErrorType(e)
+                        ReminderView.show(this.$option.context,e)
+                    }
                 }
+                
             }
         }
     destroy() {
