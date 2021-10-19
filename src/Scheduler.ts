@@ -50,7 +50,6 @@ export default class Scheduler {
                         ReminderView.show(this.$option.context,e)
                     }
                 }
-                
             }
         }
     destroy() {
