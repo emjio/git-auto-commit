@@ -2,7 +2,6 @@ import path = require('path');
 import * as vscode from 'vscode';
 const fs = require('fs');
 import { exec } from 'child_process';
-import { rejects } from 'assert';
 export function getNow() {
 	let dateTime
 	let yy = new Date().getFullYear()
@@ -31,10 +30,9 @@ const errorType: {
 
 export const checkIsRepository = async (path: string) => {
 	const cmd = `cd ${path} && git worktree list`
-	let res: boolean;
+	let res =  true;
 	try {
 		await runCommand(cmd)
-		res = true
 	} catch (e) {
 		res = false
 	}
@@ -63,7 +61,6 @@ export const runCommand = (cmd: string) => {
 	return new Promise<string>((resolve, reject) => {
 		exec(cmd, (err, stdout) => {
 			if (err) {
-				console.log(err)
 				reject(err.message);
 			} else {
 				resolve(stdout)
