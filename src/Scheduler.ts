@@ -1,8 +1,6 @@
-import { exec } from 'child_process';
-// your extension is activated the very first time the command is executed
 let timer: NodeJS.Timeout;
 import * as vscode from 'vscode';
-import { getNow,runCommand,throwErrorType } from './utils'
+import {runCommand,throwErrorType } from './utils'
 import {ReminderView} from './TextView'
 export default class Scheduler {
     $option: Option
@@ -44,9 +42,13 @@ export default class Scheduler {
                     try{
                     const commitRes = await runCommand(cmd)
                     const UnCommitChange = await this._getUnCommitChange(this.$option.path as string)
-                    ReminderView.show(this.$option.context,{diffRes:diff,commitRes,gitStatus:UnCommitChange},)
+                    vscode.window.showInformationMessage('代码成功自动commit，是否查看日志', '是', '否').then(result => {
+                        if (result === '是') {
+                         ReminderView.show(this.$option.context,{diffRes:diff,commitRes,gitStatus:UnCommitChange},)
+                        } else if (result === '不再提示') {
+                            // 其它操作
+                        }})
                     }catch(e:any){
-                        const errorType = throwErrorType(e)
                         ReminderView.show(this.$option.context,e)
                     }
                 }
