@@ -51,7 +51,8 @@
 		"test-watch": "tsc -watch -p ./",
 		"pretest": "yarn run test-compile && yarn run lint",
 		"lint": "eslint src --ext ts",
-		"test": "node ./out/test/runTest.js"
+		"test": "node ./out/test/runTest.js",
+        "publish":"vsce package"
 	},
 	"devDependencies": {
 		"@types/vscode": "^1.59.0",
