@@ -23,11 +23,6 @@ export async function activate(context: vscode.ExtensionContext) {
 		vscode.window.showInformationMessage('git-auto-commit成功启用');
 		vscode.workspace.onDidSaveTextDocument((e)=> instance.changeListener(e))
 	}
-	let disposable = vscode.commands.registerCommand('code-auto-commit.runCommit', () => {
-		
-	});
-
-	context.subscriptions.push(disposable);
 	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(() => {
 		config.commitTimeInterval = getConfig<number>('commitTimeInterval') ||0;
 		config.autoPush = getConfig<boolean>('autoPush') || false;
