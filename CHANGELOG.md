@@ -1,12 +1,20 @@
-# Change Log
+# Changelog
 
-All notable changes to the "git-auto-commit" extension will be documented in this file.
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## 1.1.0 (2021-10-20)
 
-## [Unreleased]
 
-- Initial release
+### Features
+
+* 0.1.2 release ([716b135](https://github.com/emjio/git-auto-commit/commit/716b1350d32e7d1096c7eed10a54f3a70397516a))
+* 加入开源许可证,更新readme ([efbcc37](https://github.com/emjio/git-auto-commit/commit/efbcc374bf376cbe254082d1c3dc887964bcb811))
+* 日志改为较为安静的弹窗 ([4a224f3](https://github.com/emjio/git-auto-commit/commit/4a224f3f567e0736d963f60db5d6533f9a3fee00))
+
+
+### Bug Fixes
+
+* 修复当项目不是git 项目的时候运行时的预期之外报错 ([6620e29](https://github.com/emjio/git-auto-commit/commit/6620e29da59f970e76974e7bdf989c86c917dd56))
 
 ## [0.1.1 released]
 
