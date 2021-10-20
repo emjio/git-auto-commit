@@ -12,7 +12,3 @@ jobs:
         run: yarn install && yarn lint 
         env: 
           CI: true
-      - name: test
-        run:  yarn test
-        env: 
-          CI: true
