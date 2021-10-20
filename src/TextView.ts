@@ -4,7 +4,7 @@ export class ReminderView {
     private static panel: vscode.WebviewPanel | undefined;
 
     public static show(context: vscode.ExtensionContext, content: string | textViewOption) {
-        const title = "自动提交完成"
+        const title = "自动提交完成";
         if (this.panel) {
             this.panel.webview.html = this.generateHtml(title, content);
             this.panel.reveal();
@@ -24,11 +24,11 @@ export class ReminderView {
         let diffLine: string = '';
         let gitStatusLine: string = '';
         if (typeof content === 'string') {
-            contentLine = content.split('\n').map(line => `<h3 class="line">${line}</h3>`).join('')
+            contentLine = content.split('\n').map(line => `<h3 class="line">${line}</h3>`).join('');
         } else {
-            contentLine = content.commitRes.split('\n').map(line => `<h3 class="line">${line}</h3>`).join('')
-            diffLine = content.diffRes.split('\n').map(line => `<h3 class="line">${line}</h3>`).join('')
-            gitStatusLine = content.gitStatus.split('\n').map(line => `<h3 class="line">${line}</h3>`).join('')
+            contentLine = content.commitRes.split('\n').map(line => `<h3 class="line">${line}</h3>`).join('');
+            diffLine = content.diffRes.split('\n').map(line => `<h3 class="line">${line}</h3>`).join('');
+            gitStatusLine = content.gitStatus.split('\n').map(line => `<h3 class="line">${line}</h3>`).join('');
         }
         let html = `<!DOCTYPE html>
         <html lang="en">
