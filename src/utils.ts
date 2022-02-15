@@ -1,7 +1,7 @@
 import path = require('path');
 import * as vscode from 'vscode';
 const fs = require('fs');
-const os = require('os')
+const os = require('os');
 import { exec } from 'child_process';
 export function getNow() {
 	let dateTime;
@@ -30,8 +30,8 @@ const errorType: {
 };
 
 export const checkIsRepository = async (path: string) => {
-  const platform = os.platform()
-  const cmd = `${platform === 'win32' ? `${path.slice(0,2)} &&` : ''} cd ${path} && git worktree list`
+  const platform = os.platform();
+  const cmd = `${platform === 'win32' ? `${path.slice(0,2)} &&` : ''} cd ${path} && git worktree list`;
 	let res =  true;
 	try {
 		await runCommand(cmd);
