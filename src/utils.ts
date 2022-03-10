@@ -28,11 +28,14 @@ const errorType: {
 	= {
 	notRepository: "fatal: not a git repository (or any of the parent directories): .git",
 };
-
+export const getIntoPath = (path: string): string => {
+	const platform = os.platform();
+	return `${platform === 'win32' ? `${path.slice(0, 2)} &&` : ''} cd ${path}`;
+};
 export const checkIsRepository = async (path: string) => {
-  const platform = os.platform();
-  const cmd = `${platform === 'win32' ? `${path.slice(0,2)} &&` : ''} cd ${path} && git worktree list`;
-	let res =  true;
+	const platform = os.platform();
+	const cmd = `${platform === 'win32' ? `${path.slice(0, 2)} &&` : ''} cd ${path} && git worktree list`;
+	let res = true;
 	try {
 		await runCommand(cmd);
 	} catch (e) {
