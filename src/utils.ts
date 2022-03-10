@@ -1,21 +1,22 @@
 import path = require('path');
 import * as vscode from 'vscode';
 const fs = require('fs');
+const os = require('os');
 import { exec } from 'child_process';
 export function getNow() {
-	let dateTime
-	let yy = new Date().getFullYear()
-	let mm = new Date().getMonth() + 1
-	let dd = new Date().getDate()
-	let hh = new Date().getHours()
+	let dateTime;
+	let yy = new Date().getFullYear();
+	let mm = new Date().getMonth() + 1;
+	let dd = new Date().getDate();
+	let hh = new Date().getHours();
 	let mf = new Date().getMinutes() < 10 ? '0' + new Date().getMinutes()
 		:
-		new Date().getMinutes()
+		new Date().getMinutes();
 	let ss = new Date().getSeconds() < 10 ? '0' + new Date().getSeconds()
 		:
-		new Date().getSeconds()
-	dateTime = yy + '-' + mm + '-' + dd + ' ' + hh + ':' + mf + ':' + ss
-	return dateTime
+		new Date().getSeconds();
+	dateTime = yy + '-' + mm + '-' + dd + ' ' + hh + ':' + mf + ':' + ss;
+	return dateTime;
 }
 export function getConfig<T = any>(key: string) {
 	return vscode.workspace.getConfiguration().get<T>(`code-auto-commit.${key}`);
@@ -26,48 +27,49 @@ const errorType: {
 }
 	= {
 	notRepository: "fatal: not a git repository (or any of the parent directories): .git",
-}
+};
 
 export const checkIsRepository = async (path: string) => {
-	const cmd = `cd ${path} && git worktree list`
+  const platform = os.platform();
+  const cmd = `${platform === 'win32' ? `${path.slice(0,2)} &&` : ''} cd ${path} && git worktree list`;
 	let res =  true;
 	try {
-		await runCommand(cmd)
+		await runCommand(cmd);
 	} catch (e) {
-		res = false
+		res = false;
 	}
-	return res
-}
+	return res;
+};
 
 export const throwErrorType = function (errMsg: string) {
 	for (let key in errorType) {
 		if (errMsg.includes(errorType[key])) {
-			return key
+			return key;
 		}
 	}
-	return errMsg
-}
+	return errMsg;
+};
 export const checkPathSafe = async (path?: readonly vscode.WorkspaceFolder[]) => {
 	if (!path) {
-		return '不是合法目录'
+		return '不是合法目录';
 	}
-	let isRepository = await checkIsRepository(path[0].uri.fsPath)
+	let isRepository = await checkIsRepository(path[0].uri.fsPath);
 	if (!isRepository) {
-		return '不是一个git管理项目'
+		return '不是一个git管理项目';
 	}
-	return null
-}
+	return null;
+};
 export const runCommand = (cmd: string) => {
 	return new Promise<string>((resolve, reject) => {
 		exec(cmd, (err, stdout) => {
 			if (err) {
 				reject(err.message);
 			} else {
-				resolve(stdout)
+				resolve(stdout);
 			}
-		})
-	})
-}
+		});
+	});
+};
 /**
  * 从某个HTML文件读取能被Webview加载的HTML内容
  * @param {string} context 上下文
